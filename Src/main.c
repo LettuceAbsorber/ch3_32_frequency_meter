@@ -57,7 +57,8 @@ static void MX_GPIO_Init(void);
 
 /* Private user code ---------------------------------------------------------*/
 /* USER CODE BEGIN 0 */
-
+#define __BCD_pin_state(letter, num) HAL_GPIO_ReadPin((BCD_ ## letter ## num ## _GPIO_Port), (BCD_ ## letter ## num ## _Pin))
+#define __BCD_num(letter) ((__BCD_pin_state(letter,3)<<3) + (__BCD_pin_state(letter,2)<<2) + (__BCD_pin_state(letter,1)<<1) + (__BCD_pin_state(letter,0)))
 /* USER CODE END 0 */
 
 /**
@@ -98,10 +99,27 @@ int main(void)
   /* USER CODE BEGIN WHILE */
   while (1)
   {
-	uint8_t text[] = "test text";
+
+	uint8_t text[] = "number: ";
 	uint16_t len = sizeof(text)/sizeof(uint8_t);
 	CDC_Transmit_FS(text,len);
-	HAL_Delay(1000);
+	HAL_Delay(10);
+
+	uint8_t state[7] = {__BCD_num(G),
+			 	 	 	__BCD_num(F),
+			 	 	 	__BCD_num(E),
+			 	 	 	__BCD_num(D),
+			 	 	 	__BCD_num(C),
+			 	 	 	__BCD_num(B),
+			 	 	 	__BCD_num(A)};
+	uint8_t digit[1] = "0";
+	for(int i=0; i<7; i++){
+		sprintf(digit ,"%d", state[i]);
+		CDC_Transmit_FS(digit,1);
+		HAL_Delay(20);
+	}
+	CDC_Transmit_FS("\n\r",2);
+	HAL_Delay(1000-150);
     /* USER CODE END WHILE */
 
     /* USER CODE BEGIN 3 */
