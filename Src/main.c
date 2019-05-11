@@ -24,7 +24,7 @@
 
 /* Private includes ----------------------------------------------------------*/
 /* USER CODE BEGIN Includes */
-
+#include "usbd_cdc_if.h"
 /* USER CODE END Includes */
 
 /* Private typedef -----------------------------------------------------------*/
@@ -98,7 +98,10 @@ int main(void)
   /* USER CODE BEGIN WHILE */
   while (1)
   {
-	CDC_Transmit_FS();
+	uint8_t text[] = "test text";
+	uint16_t len = sizeof(text)/sizeof(uint8_t);
+	CDC_Transmit_FS(text,len);
+	HAL_Delay(1000);
     /* USER CODE END WHILE */
 
     /* USER CODE BEGIN 3 */
