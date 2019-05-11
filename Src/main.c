@@ -187,7 +187,10 @@ static void MX_GPIO_Init(void)
   __HAL_RCC_GPIOB_CLK_ENABLE();
 
   /*Configure GPIO pin Output Level */
-  HAL_GPIO_WritePin(GPIOA, BCD_B3_Pin|BCD_E1_Pin, GPIO_PIN_RESET);
+  HAL_GPIO_WritePin(GPIOB, GPIO_PIN_10, GPIO_PIN_RESET);
+
+  /*Configure GPIO pin Output Level */
+  HAL_GPIO_WritePin(BCD_E1_GPIO_Port, BCD_E1_Pin, GPIO_PIN_RESET);
 
   /*Configure GPIO pins : BCD_C3_Pin BCD_C2_Pin BCD_C1_Pin */
   GPIO_InitStruct.Pin = BCD_C3_Pin|BCD_C2_Pin|BCD_C1_Pin;
@@ -195,21 +198,14 @@ static void MX_GPIO_Init(void)
   GPIO_InitStruct.Pull = GPIO_NOPULL;
   HAL_GPIO_Init(GPIOC, &GPIO_InitStruct);
 
-  /*Configure GPIO pins : BCD_C0_Pin BCD_B2_Pin BCD_B1_Pin BCD_B0_Pin 
-                           BCD_A3_Pin BCD_A2_Pin BCD_A1_Pin BCD_E0_Pin 
-                           BCD_E2_Pin BCD_F0_Pin */
-  GPIO_InitStruct.Pin = BCD_C0_Pin|BCD_B2_Pin|BCD_B1_Pin|BCD_B0_Pin 
-                          |BCD_A3_Pin|BCD_A2_Pin|BCD_A1_Pin|BCD_E0_Pin 
-                          |BCD_E2_Pin|BCD_F0_Pin;
+  /*Configure GPIO pins : BCD_C0_Pin BCD_B3_Pin BCD_B2_Pin BCD_B1_Pin 
+                           BCD_B0_Pin BCD_A3_Pin BCD_A2_Pin BCD_A1_Pin 
+                           BCD_E0_Pin BCD_E2_Pin BCD_F0_Pin */
+  GPIO_InitStruct.Pin = BCD_C0_Pin|BCD_B3_Pin|BCD_B2_Pin|BCD_B1_Pin 
+                          |BCD_B0_Pin|BCD_A3_Pin|BCD_A2_Pin|BCD_A1_Pin 
+                          |BCD_E0_Pin|BCD_E2_Pin|BCD_F0_Pin;
   GPIO_InitStruct.Mode = GPIO_MODE_INPUT;
   GPIO_InitStruct.Pull = GPIO_NOPULL;
-  HAL_GPIO_Init(GPIOA, &GPIO_InitStruct);
-
-  /*Configure GPIO pins : BCD_B3_Pin BCD_E1_Pin */
-  GPIO_InitStruct.Pin = BCD_B3_Pin|BCD_E1_Pin;
-  GPIO_InitStruct.Mode = GPIO_MODE_OUTPUT_PP;
-  GPIO_InitStruct.Pull = GPIO_NOPULL;
-  GPIO_InitStruct.Speed = GPIO_SPEED_FREQ_LOW;
   HAL_GPIO_Init(GPIOA, &GPIO_InitStruct);
 
   /*Configure GPIO pins : BCD_A0_Pin BCD_E3_Pin START_RELAY_Pin BCD_D0_Pin 
@@ -223,6 +219,20 @@ static void MX_GPIO_Init(void)
   GPIO_InitStruct.Mode = GPIO_MODE_INPUT;
   GPIO_InitStruct.Pull = GPIO_NOPULL;
   HAL_GPIO_Init(GPIOB, &GPIO_InitStruct);
+
+  /*Configure GPIO pin : PB10 */
+  GPIO_InitStruct.Pin = GPIO_PIN_10;
+  GPIO_InitStruct.Mode = GPIO_MODE_OUTPUT_PP;
+  GPIO_InitStruct.Pull = GPIO_NOPULL;
+  GPIO_InitStruct.Speed = GPIO_SPEED_FREQ_LOW;
+  HAL_GPIO_Init(GPIOB, &GPIO_InitStruct);
+
+  /*Configure GPIO pin : BCD_E1_Pin */
+  GPIO_InitStruct.Pin = BCD_E1_Pin;
+  GPIO_InitStruct.Mode = GPIO_MODE_OUTPUT_PP;
+  GPIO_InitStruct.Pull = GPIO_NOPULL;
+  GPIO_InitStruct.Speed = GPIO_SPEED_FREQ_LOW;
+  HAL_GPIO_Init(BCD_E1_GPIO_Port, &GPIO_InitStruct);
 
 }
 
