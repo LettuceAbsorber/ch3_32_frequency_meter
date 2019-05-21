@@ -54,7 +54,8 @@ extern "C" {
 void Error_Handler(void);
 
 /* USER CODE BEGIN EFP */
-
+void TIM1_Start(void);
+void TIM1_Stop(void);
 /* USER CODE END EFP */
 
 /* Private defines -----------------------------------------------------------*/
