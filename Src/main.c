@@ -93,19 +93,20 @@ int main(void)
   MX_USB_DEVICE_Init();
   MX_TIM1_Init();
   /* USER CODE BEGIN 2 */
-
-  //HAL_NVIC_EnableIRQ(TIM1_IRQn);
-  //HAL_TIM_Base_Start_IT(&htim1);
+  ch3_32_Intit(&htim1);
   /* USER CODE END 2 */
 
   /* Infinite loop */
   /* USER CODE BEGIN WHILE */
-
   while (1)
   {
 	  //HAL_GPIO_TogglePin(START_RELAY_GPIO_Port, START_RELAY_GPIO_Port);
-
-	HAL_Delay(10000);
+	  if(clear == 1){
+		HAL_GPIO_WritePin(START_RELAY_GPIO_Port, START_RELAY_Pin, GPIO_PIN_SET);
+		HAL_Delay(9);
+		HAL_GPIO_WritePin(START_RELAY_GPIO_Port, START_RELAY_Pin, GPIO_PIN_RESET);
+		clear = 0;
+	  }
     /* USER CODE END WHILE */
 
     /* USER CODE BEGIN 3 */
@@ -173,7 +174,7 @@ static void MX_TIM1_Init(void)
   TIM_MasterConfigTypeDef sMasterConfig = {0};
 
   /* USER CODE BEGIN TIM1_Init 1 */
-  //HAL_TIM_Base_MspInit(&htim1);
+
   /* USER CODE END TIM1_Init 1 */
   htim1.Instance = TIM1;
   htim1.Init.Prescaler = 47999;
@@ -181,7 +182,7 @@ static void MX_TIM1_Init(void)
   htim1.Init.Period = 999;
   htim1.Init.ClockDivision = TIM_CLOCKDIVISION_DIV1;
   htim1.Init.RepetitionCounter = 0;
-  htim1.Init.AutoReloadPreload = TIM_AUTORELOAD_PRELOAD_DISABLE;
+  htim1.Init.AutoReloadPreload = TIM_AUTORELOAD_PRELOAD_ENABLE;
   if (HAL_TIM_Base_Init(&htim1) != HAL_OK)
   {
     Error_Handler();
@@ -198,9 +199,7 @@ static void MX_TIM1_Init(void)
     Error_Handler();
   }
   /* USER CODE BEGIN TIM1_Init 2 */
-  //__HAL_RCC_TIM1_CLK_ENABLE();
-  //HAL_TIM_Base_Start(&htim1);
-  HAL_TIM_Base_Start_IT(&htim1);
+
   /* USER CODE END TIM1_Init 2 */
 
 }
@@ -261,12 +260,6 @@ static void MX_GPIO_Init(void)
 }
 
 /* USER CODE BEGIN 4 */
-void TIM1_Start(void){
-	HAL_TIM_Base_Start_IT(&htim1);
-}
-void TIM1_Stop(void){
-	HAL_TIM_Base_Stop_IT(&htim1);
-}
 /* USER CODE END 4 */
 
 /**

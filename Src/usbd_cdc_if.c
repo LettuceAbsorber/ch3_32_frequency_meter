@@ -23,7 +23,7 @@
 #include "usbd_cdc_if.h"
 
 /* USER CODE BEGIN INCLUDE */
-
+#include "ch3_32.h"
 /* USER CODE END INCLUDE */
 
 /* Private typedef -----------------------------------------------------------*/
@@ -263,8 +263,12 @@ static int8_t CDC_Control_FS(uint8_t cmd, uint8_t* pbuf, uint16_t length)
 static int8_t CDC_Receive_FS(uint8_t* Buf, uint32_t *Len)
 {
   /* USER CODE BEGIN 6 */
-  ch3_3d_decode(Buf, Len);
-  USBD_CDC_SetRxBuffer(&hUsbDeviceFS, &Buf[0]);
+  if(ch3_32_decode(Buf, Len) == Status_OK)
+	  CDC_Transmit_FS( (uint8_t*)"OK\n\r", 4);
+  else
+	  CDC_Transmit_FS( (uint8_t*)"Error\n\r", 7);
+
+  //USBD_CDC_SetRxBuffer(&hUsbDeviceFS, &Buf[0]);
   USBD_CDC_ReceivePacket(&hUsbDeviceFS);
   return (USBD_OK);
   /* USER CODE END 6 */
@@ -286,7 +290,7 @@ uint8_t CDC_Transmit_FS(uint8_t* Buf, uint16_t Len)
   uint8_t result = USBD_OK;
   /* USER CODE BEGIN 7 */
   USBD_CDC_HandleTypeDef *hcdc = (USBD_CDC_HandleTypeDef*)hUsbDeviceFS.pClassData;
-  if (hcdc == 0) //check if connected
+  if (hcdc == 0)
 	  return USBD_FAIL;
   if (hcdc->TxState != 0){
     return USBD_BUSY;

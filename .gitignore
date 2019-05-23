@@ -35,3 +35,5 @@ Release/CzestliwosciomierzNowicki.list
 Debug/CzestliwosciomierzNowicki.list
 Debug/objects.list
 Debug/makefile
+/Debug/
+/Release/
