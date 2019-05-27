@@ -23,7 +23,8 @@ enum status{
 };
 
 //templorary
-uint8_t clear;
+volatile uint8_t clear;
+volatile uint16_t ch3_32_pulse_time;
 
 void ch3_32_Intit();
 uint8_t ch3_32_decode(uint8_t* Buf, uint32_t *Len);

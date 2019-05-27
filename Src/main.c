@@ -100,10 +100,10 @@ int main(void)
   /* USER CODE BEGIN WHILE */
   while (1)
   {
-	  //HAL_GPIO_TogglePin(START_RELAY_GPIO_Port, START_RELAY_GPIO_Port);
+	  //temporary -> timer 2 (pulse mode)
 	  if(clear == 1){
 		HAL_GPIO_WritePin(START_RELAY_GPIO_Port, START_RELAY_Pin, GPIO_PIN_SET);
-		HAL_Delay(9);
+		HAL_Delay(ch3_32_pulse_time);
 		HAL_GPIO_WritePin(START_RELAY_GPIO_Port, START_RELAY_Pin, GPIO_PIN_RESET);
 		clear = 0;
 	  }
@@ -182,7 +182,7 @@ static void MX_TIM1_Init(void)
   htim1.Init.Period = 999;
   htim1.Init.ClockDivision = TIM_CLOCKDIVISION_DIV1;
   htim1.Init.RepetitionCounter = 0;
-  htim1.Init.AutoReloadPreload = TIM_AUTORELOAD_PRELOAD_ENABLE;
+  htim1.Init.AutoReloadPreload = TIM_AUTORELOAD_PRELOAD_DISABLE;
   if (HAL_TIM_Base_Init(&htim1) != HAL_OK)
   {
     Error_Handler();

@@ -37,11 +37,13 @@ uint8_t ch3_32_mode;
 uint8_t ch3_32_send_if_mesure_zero;
 uint8_t ch3_32_clear_digits_after_send;
 
+
 void ch3_32_Intit(TIM_HandleTypeDef *htim1){
 	uint32_t set_mode = 4;
 	ch3_32_set_mode(&set_mode);
 	ch3_32_send_if_mesure_zero = 0;
 	ch3_32_clear_digits_after_send = 0;
+	ch3_32_pulse_time = 9;
 	last_read_digits = ch3_32_read_digits();
 
 	p_htim1 = htim1;
@@ -81,6 +83,17 @@ uint8_t ch3_32_decode(uint8_t* Buf, uint32_t *Len){
 
 	if( memcmp(command,"time",4) == 0 ){
 		return timer_change_time( read_parameter(Buf, Len, &parameter) );
+	}
+
+	if( memcmp(command,"pulse",5) == 0 ){
+		//temporary -> timer 2 (pulse mode)
+		uint32_t *temp;
+		temp = read_parameter(Buf, Len, &parameter);
+		if( *temp != 0 && *temp < 1000){
+			ch3_32_pulse_time = *temp;
+			return Status_OK;
+		}
+		return Status_ERROR;
 	}
 
 	if( memcmp(command,"reset",5) == 0 ){
