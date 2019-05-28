@@ -251,7 +251,9 @@ inline void timer_stop(void){
 
 uint8_t timer_change_time(uint32_t *time){
 	timer_stop();
+	//HAL_TIM_Base_DeInit(p_htim1);
 	p_htim1->Instance->ARR = *time -1;
+	//HAL_TIM_Base_Init(p_htim1);
 	timer_start();
 	return Status_OK;
 }
